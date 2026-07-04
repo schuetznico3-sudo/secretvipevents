@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SecretVipEvents</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Montserrat, sans-serif;}
+    html{scroll-behavior:smooth;}
+    body{min-height:100vh;background:#050507;color:#fff;overflow-x:hidden;}
+    a{color:inherit;text-decoration:none;}
+    button{font:inherit;cursor:pointer;border:none;background:none;}
+
+    :root{--bg:#050507;--surface:#0d0c14;--surface-soft:#12101c;--purple:#a855f7;--purple-soft:rgba(168,85,247,0.2);--text-soft:rgba(255,255,255,0.78);--neon:#c084fc;--neon-soft:rgba(192,132,252,0.18);--neon-glow:rgba(168,85,247,0.45);}
+    body{background:radial-gradient(circle at top left,rgba(168,85,247,0.10),transparent 22%),radial-gradient(circle at bottom right,rgba(102,51,255,0.08),transparent 20%),var(--bg);}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 14% 12%,rgba(168,85,247,0.16),transparent 24%),radial-gradient(circle at 88% 10%,rgba(102,51,255,0.12),transparent 18%);pointer-events:none;}
+
+    .page{position:relative;z-index:1;}
+    .container{width:min(1180px,calc(100% - 48px));margin:0 auto;}
+
+    nav{position:sticky;top:0;z-index:20;padding:22px 0;background:rgba(5,5,8,0.76);backdrop-filter:blur(18px);}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;}
+    .brand{font-size:24px;font-weight:800;text-transform:uppercase;letter-spacing:0.14em;color:#fff;text-shadow:0 0 12px rgba(255,255,255,0.24),0 0 18px rgba(168,85,247,0.5),0 0 28px rgba(168,85,247,0.25);animation:brand-glow 3s ease-in-out infinite;}
+    .brand span{color:var(--purple);text-shadow:0 0 18px rgba(168,85,247,0.85),0 0 28px rgba(168,85,247,0.45);}
+    .nav-links{display:flex;align-items:center;gap:28px;list-style:none;}
+    @keyframes brand-glow{0%,100%{text-shadow:0 0 12px rgba(255,255,255,0.24),0 0 18px rgba(168,85,247,0.5),0 0 28px rgba(168,85,247,0.25);}50%{text-shadow:0 0 18px rgba(255,255,255,0.32),0 0 28px rgba(168,85,247,0.75),0 0 42px rgba(168,85,247,0.35);}}
+    .nav-links li{font-size:13px;text-transform:uppercase;letter-spacing:0.16em;opacity:0.9;}
+    .nav-links li a{transition:color 0.2s ease;}
+    .nav-links li:hover a,.nav-links li.active a{color:var(--purple);}
+    .nav-cta{padding:12px 28px;border-radius:999px;background:rgba(168,85,247,0.18);border:1px solid rgba(168,85,247,0.6);color:#fff;font-weight:700;letter-spacing:0.06em;box-shadow:0 0 24px rgba(168,85,247,0.16);}
+    .mobile-toggle{display:none;width:44px;height:44px;border-radius:18px;background:rgba(255,255,255,0.06);border:1px solid rgba(168,85,247,0.18);justify-content:center;align-items:center;}
+    .mobile-toggle span{display:block;width:18px;height:2px;background:#fff;border-radius:999px;position:relative;}
+    .mobile-toggle span::before,.mobile-toggle span::after{content:'';position:absolute;left:0;width:18px;height:2px;background:#fff;border-radius:999px;}
+    .mobile-toggle span::before{top:-6px;}
+    .mobile-toggle span::after{top:6px;}
+
+    .hero{position:relative;padding:80px 0 64px;min-height:860px;background:url('images/bilder/IMG_6959.jpeg') center/cover no-repeat;}
+    .hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,5,8,0.18),rgba(5,5,8,0.84));}
+    .hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.4fr 0.9fr;gap:32px;align-items:center;}
+    .hero-copy{max-width:640px;}
+    .hero-copy h4{font-size:13px;text-transform:uppercase;letter-spacing:0.24em;color:var(--purple);margin-bottom:18px;}
+    .hero-copy h1{font-size:72px;line-height:0.96;margin-bottom:24px;max-width:12ch;}
+    .hero-copy h1 span{color:var(--purple);text-shadow:0 0 36px rgba(168,85,247,0.9);}
+    .hero-copy p{font-size:17px;line-height:1.9;color:var(--text-soft);max-width:520px;margin-bottom:38px;}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:18px;}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 32px;border-radius:999px;font-weight:700;letter-spacing:0.04em;position:relative;}
+    .btn-primary{background:var(--purple);color:#fff;box-shadow:0 0 40px rgba(168,85,247,0.28);}
+    .btn-primary::after{content:'';position:absolute;inset:-4px;border-radius:999px;background:rgba(168,85,247,0.22);filter:blur(14px);z-index:-1;}
+    .btn-secondary{background:rgba(255,255,255,0.08);border:1px solid rgba(168,85,247,0.28);color:#fff;}
+    .btn-glow{animation:pulse-glow 2.4s ease-in-out infinite;}
+    @keyframes pulse-glow{0%,100%{transform:translateY(0);box-shadow:0 0 34px rgba(168,85,247,0.28);}50%{transform:translateY(-1px);box-shadow:0 0 60px rgba(168,85,247,0.4);}}
+
+    .event-card{position:relative;background:rgba(12,12,20,0.96);border:1px solid rgba(168,85,247,0.18);border-radius:32px;padding:34px;box-shadow:0 26px 90px rgba(0,0,0,0.32);}
+    .event-card::before{content:'';position:absolute;top:-12px;right:-12px;width:120px;height:120px;border-radius:50%;background:rgba(168,85,247,0.1);filter:blur(24px);z-index:-1;}
+    .event-card h3{font-size:18px;text-transform:uppercase;letter-spacing:0.22em;color:#fff;margin-bottom:14px;}
+    .event-card p{font-size:15px;line-height:1.9;color:var(--text-soft);margin-bottom:28px;}
+    .event-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:28px;}
+    .event-grid span{display:flex;align-items:center;gap:12px;padding:14px;border-radius:18px;background:rgba(255,255,255,0.05);border:1px solid rgba(168,85,247,0.12);font-size:14px;color:#ddd;}
+    .event-grid span::before{content:'•';color:var(--purple);font-size:18px;}
+    .countdown{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;}
+    .countdown-item{padding:18px 12px;border-radius:18px;background:rgba(255,255,255,0.04);border:1px solid rgba(168,85,247,0.12);text-align:center;}
+    .countdown-item strong{display:block;font-size:20px;margin-bottom:6px;}
+    .countdown-item span{font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#a5a5ff;}
+
+    .feature-row{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;padding:48px 0;}
+    .feature-box{padding:0;border-radius:32px;background:rgba(12,12,20,0.96);border:1px solid rgba(168,85,247,0.16);box-shadow:0 0 22px rgba(168,85,247,0.08),0 18px 50px rgba(0,0,0,0.24);overflow:hidden;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;}
+    .feature-box:hover{transform:translateY(-6px);border-color:var(--purple);box-shadow:0 0 32px rgba(168,85,247,0.16),0 24px 60px rgba(0,0,0,0.28);}
+    .feature-thumb{position:relative;min-height:200px;overflow:hidden;}
+    .feature-thumb img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.85);transition:transform .35s ease,filter .35s ease;}
+    .feature-box:hover .feature-thumb img{transform:scale(1.05);filter:brightness(0.95);}
+    .feature-box h3{font-size:20px;margin:18px 24px 12px;color:#fff;}
+    .feature-box p{color:#ccc;line-height:1.75;margin:0 24px 24px;}
+    .feature-box .feature-icon{display:none;}
+    .contact-card{display:grid;gap:18px;}
+    .contact-thumb{border-radius:24px;overflow:hidden;border:1px solid rgba(168,85,247,0.25);box-shadow:0 0 28px rgba(168,85,247,0.12);}
+    .contact-thumb img{width:100%;height:auto;display:block;object-fit:cover;}
+    .feature-box p{color:#ccc;line-height:1.75;}
+
+    .live-card{display:grid;grid-template-columns:1.2fr 0.8fr;gap:24px;padding:34px;border-radius:32px;background:rgba(12,12,20,0.96);border:1px solid rgba(168,85,247,0.18);box-shadow:0 24px 80px rgba(0,0,0,0.28);margin-bottom:40px;}
+    .live-copy h3{font-size:20px;margin-bottom:14px;color:#fff;text-transform:uppercase;letter-spacing:0.16em;}
+    .live-copy p{color:#ccc;line-height:1.75;margin-bottom:24px;}
+    .live-stats{display:grid;gap:18px;}
+    .live-counter{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;border-radius:22px;background:rgba(255,255,255,0.04);border:1px solid rgba(168,85,247,0.12);}
+    .live-counter strong{font-size:28px;letter-spacing:0.03em;color:#f8f5ff;}
+    .live-counter span{font-size:13px;text-transform:uppercase;color:#a5a5ff;letter-spacing:0.14em;}
+    .progress-bar{height:14px;border-radius:999px;background:rgba(255,255,255,0.08);overflow:hidden;border:1px solid rgba(168,85,247,0.12);}
+    .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,rgba(168,85,247,0.95),rgba(104,49,255,0.95));transition:width 0.35s ease;}
+    .status-badge{display:inline-flex;padding:10px 16px;border-radius:999px;background:rgba(168,85,247,0.12);color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:0.12em;}
+    .live-message{margin-top:24px;padding:18px 22px;border-radius:26px;background:linear-gradient(180deg,rgba(15,12,30,0.98),rgba(12,9,26,0.92));border:1px solid rgba(168,85,247,0.18);box-shadow:0 12px 40px rgba(168,85,247,0.12);color:#eef0ff;font-size:15px;line-height:1.8;}
+
+    .section{padding:64px 0;}
+    .section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:36px;}
+    .section-title p{font-size:12px;text-transform:uppercase;letter-spacing:0.18em;color:var(--purple);opacity:0.95;}
+    .section-title h2{font-size:42px;}
+
+    .ticket-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px;}
+    .ticket-card{overflow:hidden;border-radius:32px;background:linear-gradient(180deg,rgba(10,10,18,0.98),rgba(24,12,52,0.98));border:1px solid rgba(168,85,247,0.24);box-shadow:0 0 34px rgba(168,85,247,0.08),0 24px 70px rgba(0,0,0,0.34);transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease;}
+    .ticket-card:hover{transform:translateY(-4px);border-color:rgba(168,85,247,0.4);box-shadow:0 0 52px rgba(168,85,247,0.18),0 28px 80px rgba(0,0,0,0.38);}
+    .ticket-card img{width:100%;height:260px;object-fit:cover;display:block;filter:brightness(0.96);}    
+    .ticket-body{padding:32px;}
+    .ticket-label{display:inline-flex;padding:10px 16px;border-radius:999px;background:rgba(255,255,255,0.08);border:1px solid rgba(168,85,247,0.18);font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:#fff;margin-bottom:18px;}
+    .ticket-card h3{font-size:24px;margin-bottom:18px;}
+    .ticket-price{font-size:42px;color:#d8b4fe;margin-bottom:22px;}
+    .ticket-list{list-style:none;padding:0;margin:0;}
+    .ticket-list li{display:flex;align-items:center;gap:12px;margin-bottom:14px;color:#ccc;font-size:15px;}
+    .ticket-list li::before{content:'✓';display:inline-flex;width:24px;height:24px;align-items:center;justify-content:center;border-radius:8px;background:rgba(168,85,247,0.18);color:#d8b4fe;font-size:12px;}
+    .ticket-cta{display:inline-flex;align-items:center;gap:10px;margin-top:24px;padding:16px 24px;border-radius:999px;background:linear-gradient(135deg,rgba(168,85,247,0.96),rgba(104,49,255,0.96));color:#fff;font-weight:700;box-shadow:0 0 30px rgba(168,85,247,0.36);}
+
+    .preview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+    .preview-card{overflow:hidden;border-radius:26px;border:1px solid rgba(168,85,247,0.18);box-shadow:0 0 24px rgba(168,85,247,0.06),0 18px 50px rgba(0,0,0,0.24);transition:box-shadow .3s ease;}
+    .preview-card:hover{box-shadow:0 0 40px rgba(168,85,247,0.14),0 22px 60px rgba(0,0,0,0.28);}
+    .preview-card img{width:100%;height:260px;object-fit:cover;display:block;transition:transform .45s ease,filter .45s ease;}
+    .preview-card:hover img{transform:scale(1.04);filter:brightness(1.02);}
+
+    .gallery-section{padding:0 0 64px;}
+    .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+    .gallery-card{position:relative;min-height:330px;border-radius:28px;overflow:hidden;border:1px solid rgba(168,85,247,0.22);box-shadow:0 0 24px rgba(168,85,247,0.08),0 16px 40px rgba(0,0,0,0.35);transition:box-shadow .3s ease;}
+    .gallery-card:hover{box-shadow:0 0 42px rgba(168,85,247,0.16),0 20px 50px rgba(0,0,0,0.36);}
+    .gallery-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease,filter .45s ease;}
+    .gallery-card:hover img{transform:scale(1.06);filter:brightness(1.04);}
+    .gallery-card span{position:absolute;left:24px;bottom:24px;color:#fff;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;z-index:1;}
+    .gallery-card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(9,9,17,0.96) 100%);}
+
+    footer{padding:50px 0 40px;background:#07070e;}
+    .footer-top{display:grid;grid-template-columns:2fr 1fr;gap:24px;margin-bottom:32px;}
+    .footer-card{padding:26px;border-radius:24px;background:rgba(255,255,255,0.03);border:1px solid rgba(168,85,247,0.08);box-shadow:0 0 30px rgba(168,85,247,0.06);}
+    .footer-card h3{margin-bottom:14px;color:#e9d5ff;text-transform:uppercase;letter-spacing:0.08em;font-size:14px;}
+    .footer-card p{line-height:1.8;color:#ccc;opacity:0.9;font-size:14px;}
+    .footer-links{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+    .social-list{display:flex;gap:16px;margin-top:18px;}
+    .social-link{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:10px 14px;border-radius:14px;background:rgba(168,85,247,0.14);color:#fff;font-size:14px;transition:transform .2s ease, background .2s ease;}
+    .social-link:hover{transform:translateY(-1px);background:rgba(168,85,247,0.27);}
+    .social-link .icon{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;}
+    .social-link svg{width:100%;height:100%;fill:currentColor;}
+    .footer-bottom{text-align:center;margin-top:18px;color:#aaa;font-size:13px;opacity:0.72;}
+
+    @media(max-width:1100px){.hero-inner{grid-template-columns:1fr;}.feature-row{grid-template-columns:repeat(2,1fr);}.preview-grid{grid-template-columns:repeat(2,1fr);}.gallery-grid{grid-template-columns:repeat(2,1fr);}.footer-top{grid-template-columns:1fr;}}
+    @media(max-width:760px){nav{padding:18px 0;}.container{width:calc(100% - 32px);}.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(5,5,8,0.98);flex-direction:column;align-items:center;gap:18px;padding:18px 0 22px;box-shadow:0 24px 80px rgba(0,0,0,0.35);}.nav-links.open{display:flex;}.nav-cta{display:none;}.mobile-toggle{display:flex;}.hero{padding:60px 0 48px;}.hero-copy h1{font-size:52px;}.feature-row{grid-template-columns:1fr;}.ticket-grid{grid-template-columns:1fr;}.preview-grid{grid-template-columns:1fr;}.gallery-grid{grid-template-columns:1fr;}.footer-links{grid-template-columns:1fr;}.section-title{flex-direction:column;align-items:flex-start;}}</style>
+</head>
+<body>
+  <div class="page">
+    <nav>
+      <div class="container nav-inner">
+        <div class="brand">Secret<span>VipEvents</span></div>
+        <button class="mobile-toggle" aria-label="Menü öffnen" id="mobileToggle"><span></span></button>
+        <ul class="nav-links" id="navLinks">
+          <li class="active"><a href="#home">Home</a></li>
+          <li><a href="#tickets">Tickets</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Kontakt</a></li>
+        </ul>
+        <a class="nav-cta" href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=info%40secretvipevents.de&currency_code=EUR&item_name=SecretVipEvents%20Standard%20Ticket&amount=83.19" target="_blank" rel="noreferrer noopener">Tickets sichern</a>
+      </div>
+    </nav>
+
+    <section id="home" class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h4>DAS EVENT DES JAHRES</h4>
+          <h1>FEEL THE <span>VIBE</span></h1>
+          <p>Musik. People. Energy. Eine Nacht voller Luxus, Bass und exklusiver Gäste – direkt im Herzen Berlins.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-glow" href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=info%40secretvipevents.de&currency_code=EUR&item_name=SecretVipEvents%20Standard%20Ticket&amount=83.19" target="_blank" rel="noreferrer noopener">Tickets sichern</a>
+            <a class="btn btn-secondary btn-glow" href="#gallery">Mehr entdecken</a>
+          </div>
+        </div>
+        <div class="event-card">
+          <h3>NÄCHSTES EVENT</h3>
+          <p>31. Dezember 2026<br>20:00 Uhr • Club Royal Berlin</p>
+          <div class="event-grid">
+            <span>Club Royal</span>
+            <span>Premium Sound</span>
+            <span>VIP Drinks</span>
+            <span>Exklusiver Einlass</span>
+          </div>
+          <div class="countdown">
+            <div class="countdown-item"><strong id="days">00</strong><span>Tage</span></div>
+            <div class="countdown-item"><strong id="hours">00</strong><span>Std</span></div>
+            <div class="countdown-item"><strong id="minutes">00</strong><span>Min</span></div>
+            <div class="countdown-item"><strong id="seconds">00</strong><span>Sek</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container feature-row">
+      <article class="feature-box">
+        <div class="feature-thumb"><img src="images/bilder/IMG_6971.jpeg" alt="Club Vibe"></div>
+        <h3>Club Vibe</h3>
+        <p>Perfekte Soundscapes, pulsierende Beats und energiegeladene Crowds.</p>
+      </article>
+      <article class="feature-box">
+        <div class="feature-thumb"><img src="images/bilder/IMG_6972.jpeg" alt="Location"></div>
+        <h3>Location</h3>
+        <p>Exklusive Venue im Herzen von Berlin mit VIP-Atmosphäre.</p>
+      </article>
+      <article class="feature-box">
+        <div class="feature-thumb"><img src="images/bilder/IMG_6973.jpeg" alt="Drinks"></div>
+        <h3>Drinks</h3>
+        <p>Signature Cocktails, Champagner und Premium-Service am Tisch.</p>
+      </article>
+      <article class="feature-box">
+        <div class="feature-thumb"><img src="images/bilder/IMG_6960.jpeg" alt="Tickets"></div>
+        <h3>Tickets</h3>
+        <p>Limitierte Plätze. Sichern Sie sich jetzt den exklusiven Einlass.</p>
+      </article>
+      <article class="feature-box">
+        <div class="feature-thumb"><img src="images/bilder/IMG_6964.jpeg" alt="Kontakt"></div>
+        <h3>Kontakt</h3>
+        <p>Support, VIP-Service und Buchungen für private Tischreservierungen.</p>
+      </article>
+    </section>
+
+    <section id="live" class="container">
+      <div class="live-card">
+        <div class="live-copy">
+          <h3>Live WhatsApp-Ticker</h3>
+          <p>Unsere WhatsApp-Gruppe wächst aktuell. Sobald 600 Mitglieder erreicht sind, wird die finale Location freigeschaltet.</p>
+          <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+          <div class="live-stats">
+            <div class="live-counter"><strong id="groupCount">0</strong><span>Mitglieder in der Gruppe</span></div>
+            <div class="status-badge" id="locationStatus">Location noch versteckt</div>
+          </div>
+        </div>
+        <div class="live-copy">
+          <h3>Folge uns</h3>
+          <p>Instagram: @secretvipevents<br>WhatsApp-Gruppe: Jetzt beitreten und die Location freischalten.</p>
+          <div class="social-list"><a class="social-link" href="https://instagram.com/secretvipevents" target="_blank" rel="noreferrer noopener"><span class="icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 7.2a4.8 4.8 0 1 0 0 9.6 4.8 4.8 0 0 0 0-9.6Zm0 7.92a3.12 3.12 0 1 1 0-6.24 3.12 3.12 0 0 1 0 6.24Z"/><path d="M17.64 6.36a1.12 1.12 0 1 0 0 2.24 1.12 1.12 0 0 0 0-2.24ZM18.3 4.5c-.18-.42-.5-.75-.92-.92C16.4 3.3 12 3.3 12 3.3s-4.4 0-5.38.28c-.42.18-.75.5-.92.92-.28.98-.28 3.02-.28 3.02s0 2.04.28 3.02c.18.42.5.75.92.92.98.28 5.38.28 5.38.28s4.4 0 5.38-.28c.42-.18.75-.5.92-.92.28-.98.28-3.02.28-3.02s0-2.04-.28-3.02Zm-1.32 5.5a3.88 3.88 0 0 1-.22 1.26 1.9 1.9 0 0 1-1.1 1.12c-.6.24-2.04.18-2.72.18s-2.12.06-2.72-.18a1.9 1.9 0 0 1-1.1-1.12 3.88 3.88 0 0 1-.22-1.26v-1.98c0-.46.18-.9.5-1.22.3-.3.72-.48 1.18-.48h4.96c.46 0 .88.18 1.18.48.32.32.5.76.5 1.22v1.98Z"/></svg>Instagram</span></a><a class="social-link" href="https://chat.whatsapp.com/Gctucb2Lzta3jrUDEfKYuJ" target="_blank" rel="noreferrer noopener"><span class="icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.52 3.48A11.72 11.72 0 0 0 3.48 20.52l-1.18 3.86 3.96-1.04A11.72 11.72 0 0 0 20.52 3.48Zm-1.2 15.62c-.48 1.4-2.76 2.66-3.76 2.8l-.56.14-.8-.82a9.81 9.81 0 0 1-5.16-5.28l-.48-.86.34-.48a4.88 4.88 0 0 1 1.28-1.4c.22-.14.46-.14.68-.04l1.86.84c.26.12.56.02.74-.24l.6-.84c.18-.26.12-.6-.14-.82l-.92-.72a1.6 1.6 0 0 0-1.62-.22 6.4 6.4 0 0 0-2.04 1.86 1.32 1.32 0 0 0-.16 1.2 13.2 13.2 0 0 0 2.4 4.1 13.2 13.2 0 0 0 4.1 2.44 1.3 1.3 0 0 0 1.24-.16 7.04 7.04 0 0 0 1.88-1.92c.18-.28.06-.64-.26-.82l-1.06-.68a.52.52 0 0 0-.74.16l-.46.66c-.18.26-.5.36-.78.26l-1.9-.86a2.16 2.16 0 0 1-.98-1.08l-.14-.56c0-.32.12-.64.34-.9a4.36 4.36 0 0 1 1.4-1.08 2 2 0 0 1 1.8 0l1.46.72a1.08 1.08 0 0 0 1.32-.34l.58-.8c.28-.38.26-.88-.06-1.24a8.9 8.9 0 0 0-1.96-1.62 5.78 5.78 0 0 0-3.8-.4 8.06 8.06 0 0 0-4.16 2.24 6.1 6.1 0 0 0-1.86 3.54 4.4 4.4 0 0 0 .08 2.56 12.8 12.8 0 0 0 2.16 3.86 12.8 12.8 0 0 0 3.86 2.24c.44.18.92.18 1.36.02a5.6 5.6 0 0 0 3.68-2.16 8.4 8.4 0 0 0 1.16-1.92c.2-.44.12-.92-.24-1.28Z"/></svg>WhatsApp</span></a></div>
+          <div class="live-message" id="liveMessage">Live-Zähler wird geladen...</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tickets" class="section container">
+      <div class="section-title">
+        <p>Sichere dir dein Ticket</p>
+        <h2>Ticket Options</h2>
+      </div>
+      <div class="ticket-grid">
+        <article class="ticket-card"><img src="images/bilder/IMG_6960.jpeg" alt="Standard Ticket"><div class="ticket-body"><span class="ticket-label">Standard</span><h3>83,19€ pro Ticket</h3><div class="ticket-price">83,19€</div><ul class="ticket-list"><li>Zugang zum Event</li><li>Standard Bar</li><li>Zugang zu allen Areas</li><li>Unvergessliche Nacht</li></ul><a class="ticket-cta" href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=info%40secretvipevents.de&currency_code=EUR&item_name=SecretVipEvents%20Standard%20Ticket&amount=83.19" target="_blank" rel="noreferrer noopener">Direkt zu PayPal</a></div></article>
+        <article class="ticket-card"><img src="images/bilder/villa-photo.jpg" alt="VIP Villa Photo"><div class="ticket-body"><span class="ticket-label">VIP</span><h3>251,26€ pro Ticket</h3><div class="ticket-price">251,26€</div><ul class="ticket-list"><li>Priorisierter Einlass</li><li>Zugang zur VIP Area</li><li>Welcome Drink</li><li>VIP Bar</li></ul><a class="ticket-cta" href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=info%40secretvipevents.de&currency_code=EUR&item_name=SecretVipEvents%20VIP%20Ticket&amount=251.26" target="_blank" rel="noreferrer noopener">Direkt zu PayPal</a></div></article>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="section-title"><p>Vorfreude</p><h2>Luxury Moments</h2></div>
+      <div class="preview-grid">
+        <article class="preview-card"><img src="images/bilder/IMG_6961.jpeg" alt="VIP Party Atmosphäre"></article>
+        <article class="preview-card"><img src="images/bilder/IMG_6962.jpeg" alt="Luxus Lounge"></article>
+        <article class="preview-card"><img src="images/bilder/IMG_6963.jpeg" alt="Champagner Moment"></article>
+      </div>
+    </section>
+
+    <section id="gallery" class="gallery-section container">
+      <div class="section-title"><p>Exklusiv</p><h2>Gallery</h2></div>
+      <div class="gallery-grid">
+        <article class="gallery-card"><img src="images/bilder/IMG_6964.jpeg" alt="Luxusvilla bei Nacht"><span>Luxusvilla</span></article>
+        <article class="gallery-card"><img src="images/bilder/IMG_6966.jpeg" alt="Location bei Nacht"><span>VIP Party</span></article>
+        <article class="gallery-card"><img src="images/bilder/IMG_6969.jpeg" alt="Champagner Bar"><span>Champagner</span></article>
+      </div>
+    </section>
+
+    <section id="house-rules" class="section container">
+      <div class="section-title"><p>Regeln</p><h2>Hausordnung</h2></div>
+      <div class="feature-row" style="grid-template-columns:1fr; gap:18px;">
+        <article class="feature-box" style="padding:28px 24px;">
+          <h3>Unsere Hausordnung</h3>
+          <ul style="list-style:disc inside; color:#ccc; line-height:1.8; margin-top:18px;">
+            <li>Respektvoller Umgang miteinander ist Pflicht.</li>
+            <li>Alkohol und Getränke dürfen nur an den ausgewiesenen Stellen konsumiert werden.</li>
+            <li>Rauchen ist ausschließlich im Außenbereich erlaubt.</li>
+            <li>Der Einlass erfolgt nur mit gültigem Ticket und Ausweis.</li>
+            <li>Flaschen, Glasbehälter und gefährliche Gegenstände sind verboten.</li>
+            <li>Fotografieren und Filmen ist nur mit Erlaubnis gestattet.</li>
+            <li>Bei Verstößen behalten wir uns den Ausschluss vom Event vor.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="section container">
+      <div class="section-title"><p>Kontakt</p><h2>Kontakt & Community</h2></div>
+      <div class="footer-top">
+        <div class="footer-card contact-card">
+          <div class="contact-thumb"><img src="images/bilder/IMG_6966.jpeg" alt="VIP Kontakt Service"></div>
+          <h3>SecretVipEvents</h3>
+          <p>Wir bringen Menschen zusammen für unvergessliche Nächte mit fetten Beats, VIP-Service und Premium-Guests.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-card"><h3>Quick Links</h3><p>Home<br>Tickets<br>Gallery<br>Kontakt</p></div>
+          <div class="footer-card"><h3>Kontakt</h3><p>info@secretvipevents.de<br>+49 123 456 7890<br>Club Royal, Berlin</p><div class="social-list"><a class="social-link" href="https://instagram.com/secretvipevents" target="_blank" rel="noreferrer noopener"><span class="icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 7.2a4.8 4.8 0 1 0 0 9.6 4.8 4.8 0 0 0 0-9.6Zm0 7.92a3.12 3.12 0 1 1 0-6.24 3.12 3.12 0 0 1 0 6.24Z"/><path d="M17.64 6.36a1.12 1.12 0 1 0 0 2.24 1.12 1.12 0 0 0 0-2.24ZM18.3 4.5c-.18-.42-.5-.75-.92-.92C16.4 3.3 12 3.3 12 3.3s-4.4 0-5.38.28c-.42.18-.75.5-.92.92-.28.98-.28 3.02-.28 3.02s0 2.04.28 3.02c.18.42.5.75.92.92.98.28 5.38.28 5.38.28s4.4 0 5.38-.28c.42-.18.75-.5.92-.92.28-.98.28-3.02.28-3.02s0-2.04-.28-3.02Zm-1.32 5.5a3.88 3.88 0 0 1-.22 1.26 1.9 1.9 0 0 1-1.1 1.12c-.6.24-2.04.18-2.72.18s-2.12.06-2.72-.18a1.9 1.9 0 0 1-1.10-1.12 3.88 3.88 0 0 1-.22-1.26v-1.98c0-.46.18-.9.5-1.22.3-.3.72-.48 1.18-.48h4.96c.46 0 .88.18 1.18.48.32.32.5.76.5 1.22v1.98Z"/></svg>Instagram</span></a><a class="social-link" href="https://chat.whatsapp.com/Gctucb2Lzta3jrUDEfKYuJ" target="_blank" rel="noreferrer noopener"><span class="icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.52 3.48A11.72 11.72 0 0 0 3.48 20.52l-1.18 3.86 3.96-1.04A11.72 11.72 0 0 0 20.52 3.48Zm-1.2 15.62c-.48 1.4-2.76 2.66-3.76 2.8l-.56.14-.8-.82a9.81 9.81 0 0 1-5.16-5.28l-.48-.86.34-.48a4.88 4.88 0 0 1 1.28-1.4c.22-.14.46-.14.68-.04l1.86.84c.26.12.56.02.74-.24l.6-.84c.18-.26.12-.6-.14-.82l-.92-.72a1.6 1.6 0 0 0-1.62-.22 6.4 6.4 0 0 0-2.04 1.86 1.32 1.32 0 0 0-.16 1.2 13.2 13.2 0 0 0 2.4 4.1 13.2 13.2 0 0 0 4.1 2.44 1.3 1.3 0 0 0 1.24-.16 7.04 7.04 0 0 0 1.88-1.92c.18-.28.06-.64-.26-.82l-1.06-.68a.52.52 0 0 0-.74.16l-.46.66c-.18.26-.5.36-.78.26l-1.9-.86a2.16 2.16 0 0 1-.98-1.08l-.14-.56c0-.32.12-.64.34-.9a4.36 4.36 0 0 1 1.4-1.08 2 2 0 0 1 1.8 0l1.46.72a1.08 1.08 0 0 0 1.32-.34l.58-.8c.28-.38.26-.88-.06-1.24a8.9 8.9 0 0 0-1.96-1.62 5.78 5.78 0 0 0-3.8-.4 8.06 8.06 0 0 0-4.16 2.24 6.1 6.1 0 0 0-1.86 3.54 4.4 4.4 0 0 0 .08 2.56 12.8 12.8 0 0 0 2.16 3.86 12.8 12.8 0 0 0 3.86 2.24c.44.18.92.18 1.36.02a5.6 5.6 0 0 0 3.68-2.16 8.4 8.4 0 0 0 1.16-1.92c.2-.44.12-.92-.24-1.28Z"/></svg>WhatsApp</span></a></div></div>
+        </div>
+      </div>
+      <div class="footer-bottom">© 2026 SecretVipEvents. Alle Rechte vorbehalten.</div>
+    </section>
+  </div>
+  <script>
+    const targetDate = new Date('2026-12-31T20:00:00');
+    const daysEl = document.getElementById('days');
+    const hoursEl = document.getElementById('hours');
+    const minutesEl = document.getElementById('minutes');
+    const secondsEl = document.getElementById('seconds');
+    const groupCountEl = document.getElementById('groupCount');
+    const progressFill = document.getElementById('progressFill');
+    const locationStatus = document.getElementById('locationStatus');
+    const liveMessage = document.getElementById('liveMessage');
+
+    const targetGroupCount = 600;
+
+    function getApiBaseUrl() {
+      if (window.location.hostname === 'secretvipevents.de') {
+        return window.location.origin;
+      }
+      return 'https://secretvipevents.de:3000';
+    }
+
+    async function fetchGroupCount() {
+      try {
+        const response = await fetch(`${getApiBaseUrl()}/api/whatsapp-count?group=Gctucb2Lzta3jrUDEfKYuJ`);
+        if (!response.ok) throw new Error('Keine Live-Daten');
+        const data = await response.json();
+        if (typeof data.count !== 'number') throw new Error('Ungültige Antwort');
+        return data.count;
+      } catch (error) {
+        console.warn('WhatsApp Count fetch failed:', error);
+        return null;
+      }
+    }
+
+    async function updateGroupTicker() {
+      liveMessage.textContent = 'Live-Daten werden geladen...';
+      const count = await fetchGroupCount();
+      if (count === null) {
+        liveMessage.textContent = 'Live-Zähler noch nicht verbunden. Bitte starte den Server oder aktualisiere die Seite.';
+        return;
+      }
+      groupCountEl.textContent = count;
+      const progress = Math.min((count / targetGroupCount) * 100, 100);
+      progressFill.style.width = `${progress}%`;
+      if (count >= targetGroupCount) {
+        locationStatus.textContent = 'Location freigegeben';
+        locationStatus.style.background = 'rgba(72,187,120,0.18)';
+        locationStatus.style.color = '#7ee787';
+        liveMessage.textContent = 'Punktzahl erreicht! Die finale Location ist jetzt verfügbar.';
+      } else {
+        locationStatus.textContent = `Noch ${targetGroupCount - count} Mitglieder bis zur Freigabe`;
+        liveMessage.textContent = 'Live-Zähler wird synchronisiert.';
+      }
+    }
+
+    updateGroupTicker();
+    setInterval(updateGroupTicker, 15000);
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetDate - now;
+      if (diff <= 0) {
+        daysEl.textContent = '00';
+        hoursEl.textContent = '00';
+        minutesEl.textContent = '00';
+        secondsEl.textContent = '00';
+        return;
+      }
+      const seconds = Math.floor(diff / 1000) % 60;
+      const minutes = Math.floor(diff / 1000 / 60) % 60;
+      const hours = Math.floor(diff / 1000 / 60 / 60) % 24;
+      const days = Math.floor(diff / 1000 / 60 / 60 / 24);
+      daysEl.textContent = String(days).padStart(2, '0');
+      hoursEl.textContent = String(hours).padStart(2, '0');
+      minutesEl.textContent = String(minutes).padStart(2, '0');
+      secondsEl.textContent = String(seconds).padStart(2, '0');
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    const mobileToggle = document.getElementById('mobileToggle');
+    const navLinks = document.getElementById('navLinks');
+    mobileToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+  </script>
+</body>
+</html>
